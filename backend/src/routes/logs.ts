@@ -3,7 +3,7 @@ import { pool } from '../config/db.js';
 
 const router = Router();
 
-// GET /api/logs - Fetch all attendance records with user details
+// Display Logs
 router.get('/logs', async (req: Request, res: Response) => {
   try {
     const query = `

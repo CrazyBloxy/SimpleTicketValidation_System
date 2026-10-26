@@ -3,6 +3,11 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 
+import authRoutes from './routes/auth.js'; 
+import tapRoutes from './routes/tap.js';
+import logsRoutes from './routes/logs.js';
+import adminRoutes from './routes/admin.js';
+
 dotenv.config();
 
 const app: Application = express();
@@ -19,6 +24,11 @@ app.use(cookieParser());
 app.get('/', (req: Request, res: Response) => {
   res.status(200).json({ status: 'OK', message: 'Passtap Backend is running!' });
 });
+
+app.use('/api', authRoutes);
+app.use('/api', tapRoutes);
+app.use('/api', logsRoutes);
+app.use('/api', adminRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
