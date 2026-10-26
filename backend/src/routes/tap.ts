@@ -28,6 +28,27 @@ router.post('/tap', async (req: Request, res: Response) => {
       return res.status(403).json({ success: false, message: 'User account is deactivated.' });
     }
 
+    // Set Cooldown
+    const recentLogResult = await pool.query(
+      'SELECT time_in, time_out FROM attendance_logs WHERE user_id = $1 ORDER BY id DESC LIMIT 1',
+      [user.id]
+    );
+
+    if (recentLogResult.rows.length > 0) {
+      const lastLog = recentLogResult.rows.length > 0 ? recentLogResult.rows[0] : null;
+      const lastTimestamp = lastLog.time_out ? new Date(lastLog.time_out) : new Date(lastLog.time_in);
+      const secondsSinceLastTap = (Date.now() - lastTimestamp.getTime()) / 1000;
+
+      const COOLDOWN_SECONDS = 10; // 10 sec cooldown
+
+      if (secondsSinceLastTap < COOLDOWN_SECONDS) {
+        return res.status(429).json({
+          success: false,
+          message: `Too fast! Please wait a few seconds before tapping again.`,
+        });
+      }
+    }
+
     // Check if the user has an active session
     const activeSessionResult = await pool.query(
       'SELECT id, time_in FROM attendance_logs WHERE user_id = $1 AND time_out IS NULL',
