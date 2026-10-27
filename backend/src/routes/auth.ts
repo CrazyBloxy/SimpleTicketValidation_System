@@ -3,12 +3,11 @@ import { Router, Request, Response } from 'express';
 const router = Router();
 
 router.post('/login', (req: Request, res: Response) => {
-  const { username, password } = req.body;
+  const { password } = req.body;
 
-  const adminUser = process.env.ADMIN_USER || 'admin';
   const adminPass = process.env.ADMIN_PASS || 'password';
 
-  if (username === adminUser && password === adminPass) {
+  if (password === adminPass) {
     // Set a simple cookie to mark the admin as logged in
     res.cookie('isAdminAuthenticated', 'true', {
       httpOnly: true,
@@ -19,7 +18,7 @@ router.post('/login', (req: Request, res: Response) => {
     return res.status(200).json({ success: true, message: 'Admin logged in successfully' });
   }
 
-  return res.status(401).json({ success: false, message: 'Invalid username or password' });
+  return res.status(401).json({ success: false, message: 'Invalid admin password' });
 });
 
 router.post('/logout', (req: Request, res: Response) => {

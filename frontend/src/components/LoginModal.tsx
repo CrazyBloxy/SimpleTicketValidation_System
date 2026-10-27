@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { api } from '../services/api'; // <-- Import your configured Axios instance
 
 interface LoginModalProps {
   onClose: () => void;
@@ -27,23 +28,19 @@ export const LoginModal: React.FC<LoginModalProps> = ({ onClose, onLoginSuccess 
     setError(null);
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', // Ensures HTTP-only cookies are saved
-        body: JSON.stringify({ password: password.trim() }),
-      });
-
-      const data = await response.json();
+      // Use Axios instance (automatically appends baseURL and handles credentials)
+      const response = await api.post('/auth/login', { password: password.trim() });
+      const data = response.data;
 
       if (data.success) {
         onLoginSuccess();
       } else {
         setError(data.message || 'Invalid admin password.');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Login error:', err);
-      setError('Network error. Could not connect to server.');
+      const errorMsg = err.response?.data?.message || 'Network error. Could not connect to server.';
+      setError(errorMsg);
     } finally {
       setLoading(false);
     }

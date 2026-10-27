@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import type { TapResponse } from '../types';
+import { api } from '../services/api'; // <-- Use your Axios instance with baseURL
 
 interface TapModalProps {
   onClose: () => void;
@@ -32,24 +33,31 @@ export const TapModal: React.FC<TapModalProps> = ({ onClose }) => {
     setFeedback(null);
 
     try {
-      const response = await fetch('/api/tap', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ card_id: cardId.trim() }),
-      });
-
-      const data: TapResponse = await response.json();
+      // Use your configured Axios client instead of raw fetch
+      const response = await api.post('/tap', { card_id: cardId.trim() });
+      const data: TapResponse = response.data;
 
       setFeedback({
         success: data.success,
         message: data.message,
         action: data.action,
       });
-    } catch (err) {
+
+      // If successful, dispatch a custom event so the Dashboard immediately refreshes logs
+      if (data.success) {
+        window.dispatchEvent(new Event('attendance-updated'));
+        
+        // Optional: Auto close modal after 1.5 seconds on successful tap
+        setTimeout(() => {
+          onClose();
+        }, 1500);
+      }
+    } catch (err: any) {
       console.error('Scan submission error:', err);
+      const errorMsg = err.response?.data?.message || 'Network error. Could not connect to server.';
       setFeedback({
         success: false,
-        message: 'Network error. Could not connect to server.',
+        message: errorMsg,
       });
     } finally {
       setLoading(false);
@@ -94,7 +102,7 @@ export const TapModal: React.FC<TapModalProps> = ({ onClose }) => {
         <form onSubmit={handleScan} className="w-full">
           <input
             ref={inputRef}
-            type="password" // Hides raw card ID keystrokes for clean presentation
+            type="password"
             value={cardId}
             onChange={(e) => setCardId(e.target.value)}
             placeholder="Waiting for card..."
