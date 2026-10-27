@@ -8,7 +8,7 @@ import { TapModal } from './components/TapModal';
 import { api } from './services/api';
 
 export const App: React.FC = () => {
-  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean | null>(null); // null means "checking"
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean | null>(null);
   const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false);
   const [isTapModalOpen, setIsTapModalOpen] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export const App: React.FC = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await api.get('/auth/status'); // We will verify this endpoint on backend
+        const response = await api.get('/auth/status');
         if (response.data.isAuthenticated) {
           setIsAdminAuthenticated(true);
         } else {
@@ -69,16 +69,7 @@ export const App: React.FC = () => {
           />
 
           {/* Protected Admin Panel Page */}
-          <Route
-            path="/admin"
-            element={
-              isAdminAuthenticated ? (
-                <AdminPanel />
-              ) : (
-                <Navigate to="/" replace />
-              )
-            }
-          />
+          <Route path="/admin" element={isAdminAuthenticated ? (<AdminPanel />) : (<Navigate to="/" replace />)}/>
 
           {/* Catch-all redirect to Home */}
           <Route path="*" element={<Navigate to="/" replace />} />

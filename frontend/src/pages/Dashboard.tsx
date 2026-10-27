@@ -45,7 +45,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onOpenTapModal }) => {
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col min-h-[calc(100vh-4rem)] justify-between">
 
-            {/* Central Dashboard Logs Section */}
+            {/* Dashboard Logs Section */}
             <div className="w-full bg-white rounded-2xl shadow-sm border border-gray-200 flex flex-col overflow-hidden flex-1 mb-8">
                 <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
                     <div>
@@ -121,7 +121,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onOpenTapModal }) => {
                 </div>
             </div>
 
-            {/* Bottom Action Section: Tap Trigger Button */}
+            {/* Tap Trigger Button */}
             <div className="w-full flex justify-center pb-2">
                 <button
                     onClick={onOpenTapModal}

@@ -104,6 +104,7 @@ export const TapModal: React.FC<TapModalProps> = ({ onClose }) => {
             ref={inputRef}
             type="password"
             value={cardId}
+            maxLength={10}
             onChange={(e) => setCardId(e.target.value)}
             placeholder="Waiting for card..."
             className="w-full px-4 py-3.5 bg-gray-50 border border-gray-300 rounded-xl text-center font-mono text-lg text-gray-800 focus:outline-none focus:ring-4 focus:ring-indigo-300 focus:border-indigo-500 transition-all shadow-sm"

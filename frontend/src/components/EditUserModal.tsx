@@ -87,6 +87,7 @@ export const EditUserModal: React.FC<EditUserModalProps> = ({ isOpen, user, onCl
             <input
               type="text"
               required
+              maxLength={10}
               value={formData.card_id}
               onChange={(e) => setFormData({ ...formData, card_id: e.target.value })}
               className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl font-mono text-sm text-gray-800 focus:outline-none focus:ring-4 focus:ring-indigo-300 focus:border-indigo-500"

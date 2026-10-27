@@ -75,6 +75,7 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({ isOpen, onClos
             <input
               type="text"
               required
+              maxLength={10}
               value={formData.card_id}
               onChange={(e) => setFormData({ ...formData, card_id: e.target.value })}
               placeholder="Scan card or type ID..."
