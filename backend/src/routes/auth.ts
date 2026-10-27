@@ -2,6 +2,17 @@ import { Router, Request, Response } from 'express';
 
 const router = Router();
 
+router.get('/status', (req: Request, res: Response) => {
+  // Check if cookie exists
+  const isAuthenticated = req.cookies?.isAdminAuthenticated === 'true';
+
+  if (isAuthenticated) {
+    return res.status(200).json({ success: true, isAuthenticated: true });
+  }
+
+  return res.status(200).json({ success: true, isAuthenticated: false });
+});
+
 router.post('/login', (req: Request, res: Response) => {
   const { password } = req.body;
 

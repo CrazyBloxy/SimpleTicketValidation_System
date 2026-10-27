@@ -90,9 +90,10 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({ isOpen, onClos
               className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-4 focus:ring-indigo-300 focus:border-indigo-500"
             >
               <option value="Student">Student</option>
+              <option value="Teacher">Teacher</option>
               <option value="Staff">Staff</option>
               <option value="Faculty">Faculty</option>
-              <option value="Admin">Admin</option>
+              <option value="Administrator">Administrator</option>
             </select>
           </div>
 
