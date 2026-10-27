@@ -39,7 +39,7 @@ router.post('/tap', async (req: Request, res: Response) => {
       const lastTimestamp = lastLog.time_out ? new Date(lastLog.time_out) : new Date(lastLog.time_in);
       const secondsSinceLastTap = (Date.now() - lastTimestamp.getTime()) / 1000;
 
-      const COOLDOWN_SECONDS = 10; // 10 sec cooldown
+      const COOLDOWN_SECONDS = 2; // 2 sec cooldown
 
       if (secondsSinceLastTap < COOLDOWN_SECONDS) {
         return res.status(429).json({
