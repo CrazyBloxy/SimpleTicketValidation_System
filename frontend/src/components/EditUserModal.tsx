@@ -77,7 +77,7 @@ export const EditUserModal: React.FC<EditUserModalProps> = ({ isOpen, user, onCl
               type="text"
               required
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value.replace(/\s+/g, ' ').trimStart()})}
               className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-4 focus:ring-indigo-300 focus:border-indigo-500"
             />
           </div>
@@ -89,7 +89,7 @@ export const EditUserModal: React.FC<EditUserModalProps> = ({ isOpen, user, onCl
               required
               maxLength={10}
               value={formData.card_id}
-              onChange={(e) => setFormData({ ...formData, card_id: e.target.value })}
+              onChange={(e) => setFormData({ ...formData, card_id: e.target.value.replace(/\D/g, '')})}
               className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl font-mono text-sm text-gray-800 focus:outline-none focus:ring-4 focus:ring-indigo-300 focus:border-indigo-500"
             />
           </div>
